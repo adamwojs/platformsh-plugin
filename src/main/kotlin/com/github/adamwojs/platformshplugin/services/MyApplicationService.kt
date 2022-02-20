@@ -1,6 +1,6 @@
-package org.jetbrains.plugins.template.services
+package com.github.adamwojs.platformshplugin.services
 
-import org.jetbrains.plugins.template.MyBundle
+import com.github.adamwojs.platformshplugin.MyBundle
 
 class MyApplicationService {
 
