@@ -11,6 +11,11 @@ class BuiltInJsonSchemaProviderFactory : JsonSchemaProviderFactory {
                 "Platform.sh routes configuration",
                 "/schema/routes.schema.json",
                 "/.platform/routes.yaml"
+            ),
+            BuiltInJsonSchemaFileProvider(
+                "Platform.sh services configuration",
+                "/schema/services.schema.json",
+                "/.platform/services.yaml"
             )
         )
     }

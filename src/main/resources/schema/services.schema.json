@@ -1,0 +1,40 @@
+{
+  "$id": "https:\/\/github.com\/adamwojs\/platformsh-plugin\/src\/main\/resources\/schema\/services.schema.json",
+  "$schema": "http:\/\/json-schema.org\/draft-07\/schema#",
+  "description": "Platform.sh services configuration schema",
+  "type": "object",
+  "additionalProperties": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "description": "One of the available services in the format type:version"
+      },
+      "disk": {
+        "type": "integer",
+        "description": "The size in MB of the persistent disk allocated to the service. Can’t be set for memory-resident-only services such as memcache and redis."
+      },
+      "size": {
+        "type": "string",
+        "description": "How many CPU and memory resources to allocate to the service.",
+        "default": "AUTO",
+        "enum": [
+          "AUTO",
+          "S",
+          "M",
+          "L",
+          "XL",
+          "2XL",
+          "4XL"
+        ]
+      },
+      "configuration": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "required": [
+      "type"
+    ]
+  }
+}
