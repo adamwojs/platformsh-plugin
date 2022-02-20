@@ -6,4 +6,9 @@
 
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.yaml</depends>
+
+    <extensions defaultExtensionNs="JavaScript">
+        <JsonSchema.ProviderFactory
+                implementation="com.github.adamwojs.platformsh.config.BuiltInJsonSchemaProviderFactory"/>
+    </extensions>
 </idea-plugin>

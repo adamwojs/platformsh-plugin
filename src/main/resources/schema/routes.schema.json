@@ -1,0 +1,205 @@
+{
+  "$id": "https:\/\/github.com\/adamwojs\/platformsh-plugin\/src\/main\/resources\/schema\/routes.schema.json",
+  "$schema": "http:\/\/json-schema.org\/draft-07\/schema#",
+  "description": "Platform.sh routes configuration schema",
+  "type": "object",
+  "additionalProperties": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "upstream",
+          "redirect"
+        ],
+        "description": "Either upstream or redirect.\nupstream means content is served at that route by an app and requires the upstream property to be set.\nredirect means the route is redirected elsewhere and requires the to property."
+      },
+      "upstream": {
+        "type": "string",
+        "description": "The name of the app to be served (as defined in your app configuration) followed by :http. Example: app:http"
+      },
+      "to": {
+        "type": "string",
+        "description": "The absolute URL or other route to which the given route should be redirected with an HTTP 301 status code."
+      },
+      "ssi": {
+        "description": "Whether server side includes are enabled.",
+        "oneOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "enabled": {
+                "type": "boolean"
+              }
+            }
+          }
+        ]
+      },
+      "redirects": {
+        "type": "object",
+        "description": "Defines redirects for partial routes",
+        "properties": {
+          "expires": {
+            "type": "string",
+            "description": "The duration the redirect will be cached e.g. 3600s, 1d, 2w, 3m"
+          },
+          "paths": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "to": {
+                  "type": "string",
+                  "description": "A relative or absolute URL e.g. '/destination'"
+                },
+                "regexp": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Specifies whether the path key should be interpreted as a PCRE regular expression."
+                },
+                "prefix": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Specifies whether we should redirect both the path and all its children or just the path itself."
+                },
+                "append_suffix": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Determines if the suffix is carried over with the redirect"
+                },
+                "code": {
+                  "type": "integer",
+                  "default": 302,
+                  "enum": [
+                    301,
+                    302,
+                    307,
+                    308
+                  ],
+                  "description": "HTTP status code. Valid status codes are 301, 302, 307, and 308"
+                },
+                "expires": {
+                  "type": "string",
+                  "description": "The duration the redirect will be cached e.g. 3600s, 1d, 2w, 3m"
+                }
+              },
+              "required": [
+                "to"
+              ]
+            }
+          }
+        },
+        "required": [
+          "paths"
+        ]
+      },
+      "cache": {
+        "type": "object",
+        "description": "Defines caching policies for the given route. Enabled by default.",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Turns the cache on or off for a route."
+          },
+          "headers": {
+            "type": "array",
+            "description": "Adds specific header fields to the cache key, enabling caching of separate responses for those headers.",
+            "items": {
+              "type": "string"
+            },
+            "default": [
+              "Accept",
+              "Accept-Language"
+            ],
+            "uniqueItems": true
+          },
+          "cookies": {
+            "type": "array",
+            "description": "A list of allowed cookie names to include values for in the cache key.",
+            "default": [
+              "*"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "default_ttl": {
+            "type": "integer",
+            "description": "Defines the default time-to-live for the cache, in seconds, for non-static responses, when the response does not specify one.",
+            "default": 0
+          }
+        },
+        "required": [
+          "enabled"
+        ]
+      },
+      "id": {
+        "type": "string",
+        "description": "A unique identifier for the route."
+      },
+      "primary": {
+        "type": "boolean",
+        "description": "Whether the route is the primary route for the project. Can only be true for one route in the configuration file, but if you use the {all} placeholder, it can be true for multiple final routes. Defaults to the first defined upstream route."
+      },
+      "tls": {
+        "type": "object",
+        "description": "TLS configuration.",
+        "properties": {
+          "min_version": {
+            "type": "string",
+            "enum": [
+              "TLSv1.2",
+              "TLSv1.3"
+            ],
+            "description": "Setting a minimum version of TLS makes the server automatically reject any connections using an older version of TLS."
+          },
+          "strict_transport_security": {
+            "type": "object",
+            "properties": {
+              "enabled": {
+                "default": null,
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "boolean"
+                  }
+                ]
+              },
+              "include_subdomains": {
+                "type": "boolean",
+                "default": false
+              },
+              "preload": {
+                "type": "boolean",
+                "default": false
+              }
+            }
+          },
+          "client_authentication": {
+            "type": "string",
+            "enum": ["required"]
+          },
+          "client_certificate_authorities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "attributes": {
+        "type": "object",
+        "description": "Any key-value pairs you want to make available to your app",
+        "additionalProperties": true
+      }
+    },
+    "required": [
+      "type"
+    ]
+  }
+}
