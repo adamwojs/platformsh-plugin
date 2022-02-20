@@ -8,6 +8,11 @@ class BuiltInJsonSchemaProviderFactory : JsonSchemaProviderFactory {
     override fun getProviders(project: Project): MutableList<JsonSchemaFileProvider> {
         return mutableListOf(
             BuiltInJsonSchemaFileProvider(
+                "Platform.sh application configuration",
+                "/schema/app.schema.json",
+                "/.platform.app.yaml"
+            ),
+            BuiltInJsonSchemaFileProvider(
                 "Platform.sh routes configuration",
                 "/schema/routes.schema.json",
                 "/.platform/routes.yaml"

@@ -1,0 +1,412 @@
+{
+  "$id": "https:\/\/github.com\/adamwojs\/platformsh-plugin\/src\/main\/resources\/schema\/app.schema.json",
+  "$schema": "http:\/\/json-schema.org\/draft-07\/schema#",
+  "description": "Platform.sh app configuration schema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "A unique name for the app. Must be lowercase alphanumeric characters. Changing the name destroys data associated with the app."
+    },
+    "type": {
+      "type": "string",
+      "description": "The base image to use with a specific app language. Format: runtime:version."
+    },
+    "size": {
+      "type": "string",
+      "description": "How many CPU and memory resources to allocate to the service.",
+      "default": "AUTO",
+      "enum": [
+        "AUTO",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL",
+        "4XL"
+      ]
+    },
+    "relationships": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "The relationships of the application with services or other applications."
+    },
+    "disk": {
+      "oneOf": [
+        {
+          "type": "integer",
+          "description": "The size of the app's persistent disk (in MB).",
+          "minimum": 128
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "The size of the disk space for the app in MB. Minimum value is 128. Defaults to null, meaning no disk is available."
+    },
+    "mounts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "enum": ["local", "service"],
+            "description": "Specifies where the mount is. local sources are unique to the app (requires disk to be set for the app), while service sources can be shared among apps (requires service to be set here)."
+          },
+          "source_path": {
+            "type": "string",
+            "description": "The subdirectory within the source where the mount should point."
+          },
+          "service": {
+            "type": "string",
+            "description": "The name of the network storage service."
+          }
+        },
+        "required": ["source", "source_path"]
+      },
+      "description": "The 'mounts' describe writable, persistent filesystem mounts in the application. The keys are directory paths relative to the application root. The values are a mount definition. In this case, `web-files` is just a unique name for the mount."
+    },
+    "web": {
+      "type": "object",
+      "description": "The configuration of the application when it is exposed to the web.",
+      "properties": {
+        "commands": {
+          "type": "object",
+          "properties": {
+            "start": {
+              "type": "string",
+              "description": "The command to launch your app. If it terminates, it’s restarted immediately."
+            }
+          },
+          "required": ["start"]
+        },
+        "upstream": {
+          "type": "object",
+          "properties": {
+            "socket_family": {
+              "type": "string",
+              "enum": ["tcp", "unix"],
+              "description": "Whether your app listens on a Unix or TCP socket.",
+              "default": "tcp"
+            },
+            "protocol": {
+              "type": "string",
+              "enum": ["http", "fastcgi"],
+              "description": "Whether your app receives incoming requests over HTTP or FastCGI. Default varies based on image type."
+            }
+          }
+        },
+        "locations": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "root": {
+                "type": "string",
+                "description": "The directory to serve static assets for this location relative to the app’s root directory. Must be an actual directory inside the root directory.\n"
+              },
+              "passthru": {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "boolean"
+                  }
+                ],
+                "description": "Whether to forward disallowed and missing resources from this location to the app. A string is a path with a leading / to the controller, such as /index.php.",
+                "default": false
+              },
+              "index": {
+                "oneOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Files to consider when serving a request for a directory. When set, requires access to the files through the allow or rules keys."
+              },
+              "expires": {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  }
+                ],
+                "default": -1,
+                "description": "How long static assets are cached. The default means no caching. Setting it to a value enables the Cache-Control and Expires headers."
+              },
+              "allow": {
+                "type": "boolean",
+                "default": true,
+                "description": "Whether to allow serving files which don’t match a rule."
+              },
+              "scripts": {
+                "type": "string",
+                "description": "Whether to allow loading scripts in that location. Meaningful only on PHP containers."
+              },
+              "headers": {
+                "type": "object",
+                "description": "Any additional headers to apply to static assets, mapping header names to values. Responses from the app aren’t affected.",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "request_buffering": {
+                "type": "object",
+                "description": "Handling for chunked requests.",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether request buffering is enabled.\n"
+                  },
+                  "max_request_size": {
+                    "type": "string",
+                    "default": "250m",
+                    "description": "The maximum size to allow in one request.\n"
+                  }
+                },
+                "required": ["enabled"]
+              },
+              "rules": {
+                "type": "object",
+                "description": "Specific overrides for specific locations.",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "workers": {
+      "type": "object",
+      "properties": {
+      },
+      "description": "Alternate copies of the application to run as background processes."
+    },
+    "timezone": {
+      "type": "string",
+      "default": "UTC",
+      "description": "The timezone for crons to run."
+    },
+    "access": {
+      "type": "object",
+      "properties": {
+        "ssh": {
+          "type": "string",
+          "enum": ["admin", "contributor", "viewer"],
+          "default": "contributor",
+          "description": "Defines the minimum role required to access app environments via SSH."
+        }
+      },
+      "description": "Access control for roles accessing app environments."
+    },
+    "variables": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "description": "Variables to control the environment."
+    },
+    "firewall": {
+      "type": "object",
+      "properties": {
+        "outbound": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ips": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": ["0.0.0.0/0"],
+                "description": "IP addresses in CIDR notation."
+              },
+              "domains": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Fully qualified domain names to specify specific destinations by hostname."
+              },
+              "ports": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "description": "Ports from 1 to 65535 that are allowed. If specified, unspecified ports are blocked. If no ports are specified, all ports are allowed."
+              }
+            }
+          }
+        }
+      },
+      "description": "Outbound firewall rules for the application."
+    },
+    "build": {
+      "type": "object",
+      "properties": {
+        "flavor": {
+          "type": "string",
+          "default": "none"
+        }
+      },
+      "description": "What happens when the app is built."
+    },
+    "dependencies": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "hooks": {
+      "type": "object",
+      "properties": {
+        "build": {
+          "type": "string",
+          "description": " Build hooks can modify the application files on disk but not access any services like databases.",
+          "x-intellij-language-injection": {
+            "language": "Shell Script"
+          }
+        },
+        "deploy": {
+          "type": "string",
+          "description": "Deploy hooks can access services but the file system is now read-only.",
+          "x-intellij-language-injection": {
+            "language": "Shell Script"
+          }
+        },
+        "post_deploy":  {
+          "type": "string",
+          "x-intellij-language-injection": {
+            "language": "Shell Script"
+          }
+        }
+      },
+      "description": "The hooks that will be triggered when the package is deployed."
+    },
+    "crons": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "spec":  {
+            "type": "string",
+            "description": "The cron specification."
+          },
+          "cmd": {
+            "type": "string",
+            "description": "The command that’s run. It’s run in Dash."
+          }
+        },
+        "required": ["spec", "cmd"]
+      }
+    },
+    "source.root": {
+      "type": "string",
+      "description": "The path where the app code lives. Defaults to the path of the configuration file. Useful for multi-app setups"
+    },
+    "runtime": {
+      "type": "object",
+      "properties": {
+        "extensions": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "configuration": {
+                    "type": "object",
+                    "additionalProperties": true
+                  }
+                },
+                "required": ["name"]
+              }
+            ]
+          },
+          "description": "PHP extensions to enable."
+        },
+        "disabled_extensions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "PHP extensions to disable"
+        },
+        "request_terminate_timeout": {
+          "type": "integer",
+          "description": "The timeout for serving a single request after which the PHP-FPM worker process is killed."
+        },
+        "sizing_hints": {
+          "type": "object",
+          "properties": {
+            "request_memory": {
+              "type": "integer",
+              "default": 45,
+              "minimum": 10,
+              "description": "The average memory consumed per request in MB."
+            },
+            "reserved_memory": {
+              "type": "integer",
+              "default": 70,
+              "minimum": 10,
+              "description": "The amount of memory reserved in MB."
+            }
+          },
+          "description": "The assumptions for setting the number of workers in your PHP-FPM runtime."
+        },
+        "xdebug": {
+          "type": "object",
+          "properties": {
+            "idekey": {
+              "type": "string",
+              "default": "PHPSTORM"
+            }
+          },
+          "description": "The setting to turn on Xdebug."
+        },
+        "quicklisp": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              }
+            },
+            "required": ["url"]
+          },
+          "description": "Distributions for QuickLisp to use."
+        }
+      },
+      "description": "Customizations to your PHP or Lisp runtime."
+    }
+  },
+  "required": ["name", "type"]
+}
