@@ -312,7 +312,10 @@
           },
           "cmd": {
             "type": "string",
-            "description": "The command that’s run. It’s run in Dash."
+            "description": "The command that’s run. It’s run in Dash.",
+            "x-intellij-language-injection": {
+              "language": "Shell Script"
+            }
           }
         },
         "required": ["spec", "cmd"]
