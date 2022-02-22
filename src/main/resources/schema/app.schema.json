@@ -54,7 +54,10 @@
         "properties": {
           "source": {
             "type": "string",
-            "enum": ["local", "service"],
+            "enum": [
+              "local",
+              "service"
+            ],
             "description": "Specifies where the mount is. local sources are unique to the app (requires disk to be set for the app), while service sources can be shared among apps (requires service to be set here)."
           },
           "source_path": {
@@ -66,7 +69,10 @@
             "description": "The name of the network storage service."
           }
         },
-        "required": ["source", "source_path"]
+        "required": [
+          "source",
+          "source_path"
+        ]
       },
       "description": "The 'mounts' describe writable, persistent filesystem mounts in the application. The keys are directory paths relative to the application root. The values are a mount definition. In this case, `web-files` is just a unique name for the mount."
     },
@@ -79,23 +85,34 @@
           "properties": {
             "start": {
               "type": "string",
-              "description": "The command to launch your app. If it terminates, it’s restarted immediately."
+              "description": "The command to launch your app. If it terminates, it’s restarted immediately.",
+              "x-intellij-language-injection": {
+                "language": "Shell Script"
+              }
             }
           },
-          "required": ["start"]
+          "required": [
+            "start"
+          ]
         },
         "upstream": {
           "type": "object",
           "properties": {
             "socket_family": {
               "type": "string",
-              "enum": ["tcp", "unix"],
+              "enum": [
+                "tcp",
+                "unix"
+              ],
               "description": "Whether your app listens on a Unix or TCP socket.",
               "default": "tcp"
             },
             "protocol": {
               "type": "string",
-              "enum": ["http", "fastcgi"],
+              "enum": [
+                "http",
+                "fastcgi"
+              ],
               "description": "Whether your app receives incoming requests over HTTP or FastCGI. Default varies based on image type."
             }
           }
@@ -178,7 +195,9 @@
                     "description": "The maximum size to allow in one request.\n"
                   }
                 },
-                "required": ["enabled"]
+                "required": [
+                  "enabled"
+                ]
               },
               "rules": {
                 "type": "object",
@@ -196,7 +215,39 @@
     },
     "workers": {
       "type": "object",
-      "properties": {
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "size": {
+            "type": "string",
+            "description": "How many CPU and memory resources to allocate to the service.",
+            "default": "AUTO",
+            "enum": [
+              "AUTO",
+              "S",
+              "M",
+              "L",
+              "XL",
+              "2XL",
+              "4XL"
+            ]
+          },
+          "commands": {
+            "type": "object",
+            "properties": {
+              "start": {
+                "type": "string",
+                "description": "The command to launch your app. If it terminates, it’s restarted immediately.",
+                "x-intellij-language-injection": {
+                  "language": "Shell Script"
+                }
+              }
+            },
+            "required": [
+              "start"
+            ]
+          }
+        }
       },
       "description": "Alternate copies of the application to run as background processes."
     },
@@ -210,7 +261,11 @@
       "properties": {
         "ssh": {
           "type": "string",
-          "enum": ["admin", "contributor", "viewer"],
+          "enum": [
+            "admin",
+            "contributor",
+            "viewer"
+          ],
           "default": "contributor",
           "description": "Defines the minimum role required to access app environments via SSH."
         }
@@ -238,7 +293,9 @@
                 "items": {
                   "type": "string"
                 },
-                "default": ["0.0.0.0/0"],
+                "default": [
+                  "0.0.0.0/0"
+                ],
                 "description": "IP addresses in CIDR notation."
               },
               "domains": {
@@ -292,7 +349,7 @@
             "language": "Shell Script"
           }
         },
-        "post_deploy":  {
+        "post_deploy": {
           "type": "string",
           "x-intellij-language-injection": {
             "language": "Shell Script"
@@ -306,7 +363,7 @@
       "additionalProperties": {
         "type": "object",
         "properties": {
-          "spec":  {
+          "spec": {
             "type": "string",
             "description": "The cron specification."
           },
@@ -318,7 +375,10 @@
             }
           }
         },
-        "required": ["spec", "cmd"]
+        "required": [
+          "spec",
+          "cmd"
+        ]
       }
     },
     "source.root": {
@@ -346,7 +406,9 @@
                     "additionalProperties": true
                   }
                 },
-                "required": ["name"]
+                "required": [
+                  "name"
+                ]
               }
             ]
           },
@@ -403,7 +465,9 @@
                 "type": "string"
               }
             },
-            "required": ["url"]
+            "required": [
+              "url"
+            ]
           },
           "description": "Distributions for QuickLisp to use."
         }
@@ -411,5 +475,10 @@
       "description": "Customizations to your PHP or Lisp runtime."
     }
   },
-  "required": ["name", "type"]
+  "required": [
+    "name",
+    "type"
+  ],
+  "definitions": {
+  }
 }

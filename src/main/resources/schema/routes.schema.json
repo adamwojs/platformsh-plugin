@@ -182,7 +182,9 @@
           },
           "client_authentication": {
             "type": "string",
-            "enum": ["required"]
+            "enum": [
+              "required"
+            ]
           },
           "client_certificate_authorities": {
             "type": "array",
