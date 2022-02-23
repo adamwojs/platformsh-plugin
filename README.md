@@ -15,7 +15,12 @@
 - [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
 
 <!-- Plugin description -->
-Integration with platform.sh
+Integration with platform.sh.
+
+- Code completion for .platform/services.yaml
+- Code completion for .platform/routes.yaml
+- Code completion for .platform.app.yaml
+- Shell Script language injection into suitable nodes (e.g. hooks, cron commands etc)
 <!-- Plugin description end -->
 
 ## Installation
