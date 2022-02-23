@@ -1,7 +1,7 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.adamwojs.platformsh</id>
-    <name>platform.sh</name>
+    <name>Platform.sh</name>
     <vendor email="adam@wojs.pl" url="http://adam.wojs.pl">Adam Wójs</vendor>
 
     <depends>com.intellij.modules.platform</depends>
