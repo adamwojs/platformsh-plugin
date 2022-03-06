@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>com.github.adamwojs.platformsh</id>
     <name>Platform.sh</name>
-    <vendor email="adam@wojs.pl" url="http://adam.wojs.pl">Adam Wójs</vendor>
+    <vendor email="adam@wojs.pl" url="https://github.com/adamwojs">Adam Wójs</vendor>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.yaml</depends>
