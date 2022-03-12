@@ -10,17 +10,17 @@ class BuiltInJsonSchemaProviderFactory : JsonSchemaProviderFactory {
             BuiltInJsonSchemaFileProvider(
                 "Platform.sh application configuration",
                 "/schema/app.schema.json",
-                "/.platform.app.yaml"
+                Regex("^.*/\\.platform\\.app\\.(yaml|yml)$")
             ),
             BuiltInJsonSchemaFileProvider(
                 "Platform.sh routes configuration",
                 "/schema/routes.schema.json",
-                "/.platform/routes.yaml"
+                Regex("^.*/\\.platform/routes\\.(yaml|yml)$")
             ),
             BuiltInJsonSchemaFileProvider(
                 "Platform.sh services configuration",
                 "/schema/services.schema.json",
-                "/.platform/services.yaml"
+                Regex("^.*/\\.platform/services\\.(yaml|yml)$")
             )
         )
     }

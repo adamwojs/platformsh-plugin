@@ -6,10 +6,13 @@ import com.jetbrains.jsonSchema.extension.JsonSchemaProviderFactory.getResourceF
 import com.jetbrains.jsonSchema.extension.SchemaType
 import com.jetbrains.jsonSchema.impl.JsonSchemaVersion
 
-class BuiltInJsonSchemaFileProvider(private val schemaName: String, private val resourcePath: String, private val filePathSuffix: String) : JsonSchemaFileProvider {
-
+class BuiltInJsonSchemaFileProvider(
+    private val schemaName: String,
+    private val resourcePath: String,
+    private val filePathPattern: Regex
+) : JsonSchemaFileProvider {
     override fun isAvailable(file: VirtualFile): Boolean {
-        return file.path.endsWith(filePathSuffix)
+        return file.path.matches(filePathPattern)
     }
 
     override fun getName(): String {

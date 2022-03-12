@@ -3,6 +3,12 @@
 # platformsh-plugin Changelog
 
 ## [Unreleased]
+
+### Fixed 
+- Recognize files with yml extension 
+
+## [0.0.1]
+
 ### Added
 - Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
 - Code completion for .platform/services.yaml 
