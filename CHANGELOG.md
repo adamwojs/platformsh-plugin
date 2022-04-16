@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+### Added 
+- Allowed installation on 221.*
+
 ### Fixed 
 - Recognize files with yml extension 
 
