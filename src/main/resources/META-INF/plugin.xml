@@ -7,6 +7,14 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.yaml</depends>
 
+    <extensions defaultExtensionNs="com.intellij">
+        <fileBasedIndex implementation="com.github.adamwojs.platformsh.index.ServicesIndexExtension"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij.psi">
+        <referenceContributor implementation="com.github.adamwojs.platformsh.config.ReferenceContributor"/>
+    </extensions>
+
     <extensions defaultExtensionNs="JavaScript">
         <JsonSchema.ProviderFactory
                 implementation="com.github.adamwojs.platformsh.config.BuiltInJsonSchemaProviderFactory"/>
