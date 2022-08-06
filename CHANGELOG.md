@@ -3,6 +3,8 @@
 # platformsh-plugin Changelog
 
 ## [Unreleased]
+### Added
+- Allowed installation on 222.*
 
 ## [0.0.2]
 ### Added 
