@@ -3,6 +3,8 @@
 # platformsh-plugin Changelog
 
 ## [Unreleased]
+### Added 
+- Allowed plugin installation on PhpStorm 2022.3 and all future versions
 
 ## [0.0.3]
 ### Added
