@@ -6,6 +6,9 @@
 ### Added 
 - Allowed plugin installation on PhpStorm 2022.3 and all future versions
 
+### Changed
+- Updated plugin template to v1.3.0
+
 ## [0.0.3]
 ### Added
 - Allowed installation on 222.*
