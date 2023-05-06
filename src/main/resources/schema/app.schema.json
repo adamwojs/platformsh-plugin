@@ -106,7 +106,7 @@
                 "description": "Whether to allow serving files which don’t match a rule."
               },
               "scripts": {
-                "type": "string",
+                "type": "boolean",
                 "description": "Whether to allow loading scripts in that location. Meaningful only on PHP containers."
               },
               "headers": {
