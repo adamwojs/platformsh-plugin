@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Fixed 
+
+- Fixed web:locations:scripts flag type in app schema (by dman-coders)
+
 ## [0.0.4] - 2022-12-10
 
 ### Added
