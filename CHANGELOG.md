@@ -4,8 +4,9 @@
 
 ## [Unreleased]
 
-### Fixed 
+## [0.0.5] - 2023-05-14
 
+### Fixed
 - Fixed web:locations:scripts flag type in app schema (by dman-coders)
 
 ## [0.0.4] - 2022-12-10
@@ -38,7 +39,8 @@
 - Code completion for .platform.app.yaml
 - Shell Script language injection into suitable nodes (e.g. hooks, cron commands etc)
 
-[Unreleased]: https://github.com/adamwojs/platformsh-plugin.git/compare/v0.0.4...HEAD
+[Unreleased]: https://github.com/adamwojs/platformsh-plugin.git/compare/v0.0.5...HEAD
+[0.0.5]: https://github.com/adamwojs/platformsh-plugin.git/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/adamwojs/platformsh-plugin.git/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/adamwojs/platformsh-plugin.git/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/adamwojs/platformsh-plugin.git/compare/v0.0.1...v0.0.2
