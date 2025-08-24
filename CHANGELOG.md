@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Added
+- Added support for new crons syntax
+- Allowed plugin installation on newer JetBrains IDEs (2024.3+)
+
 ## [0.0.5] - 2023-05-14
 
 ### Fixed
